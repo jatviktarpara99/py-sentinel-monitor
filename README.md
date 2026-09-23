@@ -39,7 +39,6 @@ A Discord Server with Webhook generation permissions
 1. Clone the repository:
 
 git clone https://github.com/jatviktarpara99/py-sentinel-monitor.git
-cd py-sentinel-monitor
 
 
 2. Install dependencies:
