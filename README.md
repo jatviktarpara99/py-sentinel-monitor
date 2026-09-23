@@ -69,8 +69,14 @@ To test the alert system locally without exposing your machine to the internet, 
 
 ssh username@localhost
 
-
 You should instantly receive a Discord notification flagging the local network attempt!
+
+:) Testing & Validation
+To test this tool, I simulated a brute-force attack:
+1. Used `nmap` to find the SSH port.
+2. Launched an automated dictionary attack using Metasploit (`ssh_login`).
+3. The Python script successfully detected the attack, sent a Discord alert, and rate-limited the rest to prevent spam.
+
 
 🔮 Future Roadmap
 
