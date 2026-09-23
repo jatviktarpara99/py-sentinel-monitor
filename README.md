@@ -71,20 +71,23 @@ ssh username@localhost
 
 You should instantly receive a Discord notification flagging the local network attempt!
 
-:) Testing & Validation
-To test this tool, I simulated a brute-force attack:
-1. Used `nmap` to find the SSH port.
-2. Launched an automated dictionary attack using Metasploit (`ssh_login`).
-3. The Python script successfully detected the attack, sent a Discord alert, and rate-limited the rest to prevent spam.
+🧪 Testing & Validation 
+To test this tool in a real-world scenario, I simulated a brute-force attack:
+1. Used `nmap` to identify the open SSH port.
+2. Launched an automated dictionary attack using the Metasploit Framework (`auxiliary/scanner/ssh/ssh_login`).
+3. The Python daemon successfully detected the attack, sent a detailed Discord alert, and dynamically rate-limited the hundreds of subsequent attempts to prevent webhook spam.
 
+⚙️ Deployment (Background Service)
+This project includes configurations to run as a persistent, headless background daemon. A sample `systemd` configuration file is provided in the `deployment/` directory so the script automatically starts on VM boot and runs invisibly.
 
 🔮 Future Roadmap
+- [x] Add rate-limiting to prevent alert fatigue.
+- [ ] Implement auto-banning using `ufw` or `iptables` for repeat offenders (IPS functionality).
+- [ ] Monitor web server access logs (Nginx/Apache) for SQLi and XSS payloads.
+- [ ] Add system health alerts (CPU/RAM spikes).
 
-[ ] Add rate-limiting (e.g., alert only after 5 failed attempts in 60 seconds).
-
-[ ] Monitor web server access logs (Nginx/Apache) for SQLi and XSS payloads.
-
-[ ] Add system health alerts (CPU/RAM spikes).
+---
+*Developed as a portfolio project demonstrating foundational SIEM engineering, log parsing, and API integrations.*
 
 [ ] Implement auto-banning using ufw or iptables for repeat offenders.
 
