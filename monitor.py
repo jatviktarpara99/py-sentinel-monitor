@@ -1,6 +1,7 @@
 import os
 import re
 import subprocess
+import time
 from typing import Optional
 from dotenv import load_dotenv
 import requests
@@ -11,9 +12,13 @@ DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
 if not DISCORD_WEBHOOK_URL:
     raise ValueError("Missing DISCORD_WEBHOOK_URL! Please define it in your .env file.")
 
-# Regex patterns for both Failure and Success
+# Regex patterns
 FAILED_LOGIN_PATTERN = re.compile(r"Failed password for (?:invalid user )?(.*?) from (.*?) port")
 SUCCESS_LOGIN_PATTERN = re.compile(r"Accepted (?:password|publickey) for (.*?) from (.*?) port")
+
+# Rate Limiting Configuration
+ALERT_COOLDOWN = 60  # Seconds to wait before alerting again for the SAME IP
+last_alert_times = {}
 
 def get_geolocation(ip: str) -> str:
     """Queries a free API to get the geographical location of an IP address."""
@@ -29,12 +34,11 @@ def get_geolocation(ip: str) -> str:
     return "Local/Unknown Network"
 
 def send_discord_alert(user: str, ip: str, location: str, alert_type: str) -> None:
-    """Sends a formatted alert to a Discord webhook based on event type."""
+    """Sends a formatted alert to a Discord webhook."""
     if alert_type == "failure":
         title = "🚨 **SSH Alert: Failed Login** 🚨"
         color_block = "```diff\n- Access Denied\n```"
     elif alert_type == "success":
-        # Highlight root logins as critical
         title = "⚠️ **CRITICAL: Root SSH Login** ⚠️" if user == "root" else "✅ **SSH Alert: Successful Login** ✅"
         color_block = "```yaml\nAccess Granted\n```"
         
@@ -53,8 +57,8 @@ def send_discord_alert(user: str, ip: str, location: str, alert_type: str) -> No
         print(f"[-] Failed to send alert: {e}")
 
 def monitor_journal() -> None:
-    """Continuously monitors the SSH systemd journal for new entries."""
-    print("[*] Starting real-time monitor (Tracking Failures & Successes)...")
+    """Continuously monitors the SSH systemd journal with Rate Limiting."""
+    print("[*] Starting real-time monitor (Rate Limited)...")
 
     process = subprocess.Popen(
         ["journalctl", "-u", "ssh", "-f", "-n", "0"],
@@ -67,16 +71,29 @@ def monitor_journal() -> None:
             if not line:
                 continue
 
-            # Check for failed logins
+            # 1. Check for failed logins (Rate Limited)
             fail_match: Optional[re.Match] = FAILED_LOGIN_PATTERN.search(line)
             if fail_match:
                 target_user, attacker_ip = fail_match.groups()
-                location = get_geolocation(attacker_ip)
-                print(f"[!] Failed Alert: {target_user} from {attacker_ip} ({location})")
-                send_discord_alert(target_user, attacker_ip, location, "failure")
+                current_time = time.time()
+                
+                # Check cooldown dictionary
+                last_time = last_alert_times.get(attacker_ip, 0)
+                
+                if (current_time - last_time) >= ALERT_COOLDOWN:
+                    # Cooldown has passed; send alert
+                    location = get_geolocation(attacker_ip)
+                    print(f"[!] Failed Alert: {target_user} from {attacker_ip} ({location})")
+                    send_discord_alert(target_user, attacker_ip, location, "failure")
+                    
+                    # Record the time we sent this alert
+                    last_alert_times[attacker_ip] = current_time
+                else:
+                    # Alert is suppressed
+                    print(f"[*] Suppressed alert for {attacker_ip} (Rate limited)")
                 continue
 
-            # Check for successful logins
+            # 2. Check for successful logins (Never Rate Limited)
             success_match: Optional[re.Match] = SUCCESS_LOGIN_PATTERN.search(line)
             if success_match:
                 target_user, attacker_ip = success_match.groups()
