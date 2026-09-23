@@ -86,14 +86,13 @@
   - [x] Add rate-limiting to prevent alert fatigue.
   - [x] Implement auto-banning using `ufw` or `iptables` for repeat offenders (IPS functionality).
   - [ ] Monitor web server access logs (Nginx/Apache) for SQLi and XSS payloads.
-  - [ ] Add system health alerts (CPU/RAM spikes).
+  - [x] Add system health alerts (CPU/RAM spikes).
   
   ---
 *Developed as a portfolio project demonstrating foundational SIEM engineering, log parsing, and API integrations.*
 
 ### Live Alert Example
-<img width="1082" height="763" alt="image" src="https://github.com/user-attachments/assets/07bbacde-2fa9-4035-8b47-bc6ec19f0ad2" />
-
+<img width="477" height="463" alt="image" src="https://github.com/user-attachments/assets/2d3cf216-1c26-4ed1-923d-00990cbf89ac" />
 
 [ ] Implement auto-banning using ufw or iptables for repeat offenders.
 
