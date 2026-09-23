@@ -1,1 +1,14 @@
+[Unit]
+Description=SSH Real-Time Security Monitor
+After=network.target
 
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/home/hehelinux/Desktop
+ExecStart=/usr/bin/python3 /home/hehelinux/Desktop/monitor.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
