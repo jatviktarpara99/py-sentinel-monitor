@@ -20,6 +20,8 @@
 
   Cyber Deception & Canary Trap (Honeypot): Deploys non-login decoy accounts (e.g., `honeyadmin`, `dbadmin`) acting as active tripwires. Any interaction triggers a zero-tolerance instant perimeter block via UFW on the first strike, bypassing standard threshold counters.
 
+  File Integrity Monitoring (FIM): Cryptographically tracks the state of critical Linux security files (`/etc/passwd`, `/etc/shadow`, `/etc/sudoers`, `/etc/ssh/sshd_config`) using SHA-256 baselines, triggering real-time tamper alerts on unauthorized writes.
+
 ### 🏗️ How It Works
 
   Ingest: The Python script uses the subprocess module to continuously tail the live SSH journal.
@@ -96,6 +98,7 @@ sudo passwd honeyadmin
   - [ ] Monitor web server access logs (Nginx/Apache) for SQLi and XSS payloads.
   - [x] Add system health alerts (CPU/RAM spikes).
   - [x] Implement SSH canary honey-accounts for active deception and instant perimeter lockdown.
+  - [x] Build File Integrity Monitoring (FIM) using SHA-256 baselines.
   
   ---
 *Developed as a portfolio project demonstrating foundational SIEM engineering, log parsing, and API integrations.*
