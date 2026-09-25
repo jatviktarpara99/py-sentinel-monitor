@@ -43,15 +43,17 @@
 ### 🚀 Installation & Setup
 
   1. Clone the repository:
-  
+
+```bash
   git clone https://github.com/jatviktarpara99/py-sentinel-monitor.git
-  
+```
   
   2. Install dependencies:
   It is recommended to use a Python virtual environment or install the requirements globally depending on your system setup.
-  
+
+```bash
   pip install -r requirements.txt
-  
+```
   
   3. Configure your environment variables:
   Create a .env file in the root directory based on the provided example.
@@ -60,6 +62,7 @@
 
   4. Configure Honeypot Trap Accounts
 To leverage the cyber deception subsystem, provision unprivileged decoy accounts without a valid login shell:
+
 ```bash
 sudo useradd -M -s /usr/sbin/nologin honeyadmin
 sudo passwd honeyadmin
@@ -74,14 +77,17 @@ sudo passwd honeyadmin
 ### 💻 Usage
 
   Run the script with administrative privileges (so it can read the system journal logs):
-  
+
+```bash
   sudo python3 monitor.py
   
   
   To test the alert system locally without exposing your machine to the internet, open a second terminal and intentionally fail an SSH login:
-  
+
+```bash
   ssh username@localhost
-  
+```
+
   You should instantly receive a Discord notification flagging the local network attempt!
 
 ### 🧪 Testing & Validation 
