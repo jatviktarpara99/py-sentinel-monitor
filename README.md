@@ -114,6 +114,4 @@ sudo passwd honeyadmin
 ### Live Alert Example
 <img width="477" height="463" alt="image" src="https://github.com/user-attachments/assets/2d3cf216-1c26-4ed1-923d-00990cbf89ac" />
 
-[ ] Implement auto-banning using ufw or iptables for repeat offenders.
-
 Developed as a portfolio project demonstrating foundational SIEM engineering, log parsing, and API integrations.
