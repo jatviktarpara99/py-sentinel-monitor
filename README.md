@@ -95,6 +95,7 @@ sudo passwd honeyadmin
   - [x] Implement auto-banning using `ufw` or `iptables` for repeat offenders (IPS functionality).
   - [ ] Monitor web server access logs (Nginx/Apache) for SQLi and XSS payloads.
   - [x] Add system health alerts (CPU/RAM spikes).
+  - [x] Implement SSH canary honey-accounts for active deception and instant perimeter lockdown.
   
   ---
 *Developed as a portfolio project demonstrating foundational SIEM engineering, log parsing, and API integrations.*
