@@ -80,6 +80,7 @@ sudo passwd honeyadmin
 
 ```bash
   sudo python3 monitor.py
+```
   
   
   To test the alert system locally without exposing your machine to the internet, open a second terminal and intentionally fail an SSH login:
