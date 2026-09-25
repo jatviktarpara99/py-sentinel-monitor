@@ -45,14 +45,14 @@
   1. Clone the repository:
 
 ```bash
-  git clone https://github.com/jatviktarpara99/py-sentinel-monitor.git
+git clone https://github.com/jatviktarpara99/py-sentinel-monitor.git
 ```
   
   2. Install dependencies:
   It is recommended to use a Python virtual environment or install the requirements globally depending on your system setup.
 
 ```bash
-  pip install -r requirements.txt
+pip install -r requirements.txt
 ```
   
   3. Configure your environment variables:
@@ -79,14 +79,14 @@ sudo passwd honeyadmin
   Run the script with administrative privileges (so it can read the system journal logs):
 
 ```bash
-  sudo python3 monitor.py
+sudo python3 monitor.py
 ```
   
   
   To test the alert system locally without exposing your machine to the internet, open a second terminal and intentionally fail an SSH login:
 
 ```bash
-  ssh username@localhost
+ssh username@localhost
 ```
 
   You should instantly receive a Discord notification flagging the local network attempt!
