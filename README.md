@@ -63,6 +63,7 @@ To leverage the cyber deception subsystem, provision unprivileged decoy accounts
 ```bash
 sudo useradd -M -s /usr/sbin/nologin honeyadmin
 sudo passwd honeyadmin
+```
   
   
   Open the .env file and paste your actual Discord Webhook URL:
