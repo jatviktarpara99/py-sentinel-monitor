@@ -18,6 +18,8 @@
   
   Automatically executes system-level UFW commands to block attacker IP addresses after 3 failed authentication attempts.
 
+  Cyber Deception & Canary Trap (Honeypot): Deploys non-login decoy accounts (e.g., `honeyadmin`, `dbadmin`) acting as active tripwires. Any interaction triggers a zero-tolerance instant perimeter block via UFW on the first strike, bypassing standard threshold counters.
+
 ### 🏗️ How It Works
 
   Ingest: The Python script uses the subprocess module to continuously tail the live SSH journal.
@@ -53,6 +55,12 @@
   Create a .env file in the root directory based on the provided example.
   
   cp .env.example .env
+
+  4. Configure Honeypot Trap Accounts
+To leverage the cyber deception subsystem, provision unprivileged decoy accounts without a valid login shell:
+```bash
+sudo useradd -M -s /usr/sbin/nologin honeyadmin
+sudo passwd honeyadmin
   
   
   Open the .env file and paste your actual Discord Webhook URL:
